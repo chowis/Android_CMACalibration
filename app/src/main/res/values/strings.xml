@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">CMA App</string>
+    <string name="cma">CMA</string>
+    <string name="calibration">Calibration</string>
+    <string name="camera">Camera</string>
+    <string name="calibrate">CALIBRATE</string>
+    <string name="view_history">VIEW HISTORY</string>
+    <string name="ver">Ver.</string>
+    <string name="menu">Menu</string>
+    <string name="skin">SKIN</string>
+    <string name="hair">HAIR</string>
+    <string name="notice">NOTICE</string>
+    <string name="proceed">Proceed</string>
+    <string name="cancel">Cancel</string>
+    <string name="analyze">Analyze</string>
+    <string name="retake">Retake</string>
+    <string name="allow">Allow</string>
+    <string name="deny">Deny</string>
+    <string name="saved_image_history">SAVED IMAGE HISTORY</string>
+    <string name="view_image">VIEW IMAGE</string>
+    <string name="id_no">ID No.</string>
+    <string name="date_time">Date\nTime</string>
+    <string name="turn_on_device">Please Turn on Device</string>
+    <string name="notice_success">Size factor</string>
+    <string name="rationale">Please allow all permission!!</string>
+    <string name="camera_focus_marker">@drawable/circle_stroke_white</string>
+    <string name="calibrate_instruction">- Attach the device to the phone
+\n- Target the center dot with the calibration paper
+\n- Align the guidelines with the calibration paper
+\n- Tap Capture to take image
+\n- then analyze to see result</string>
+    <string name="how_to_calibrate">HOW TO CALIBRATE</string>
+    <string name="calibrating_device">Calibrating Device</string>
+    <string name="calibrating_device_message">Attach the device before proceeding.\n\nTo standardize ranges of image sizes without using a fixed size.\n\nTo check if the CMA device is attached correctly.\n\nTo know the real measurement of the area each phone can take.</string>
+    <string name="please_wait">Please wait...</string>
+    <string name="please_wait_picture">Please wait processing picture...</string>
+    <string name="notice_error">Device is not attached properly.\nCheck the device attachment
+and capture again,</string>
+</resources>
