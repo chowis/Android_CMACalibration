@@ -45,17 +45,14 @@
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_image_history"
         android:layout_width="@dimen/result_image_height"
         android:layout_height="@dimen/result_image_height"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginRight="16dp"
-        android:layout_gravity="center"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY" />
+        android:layout_gravity="center" />
 
     <TextView
         android:id="@+id/tv_size_factor"

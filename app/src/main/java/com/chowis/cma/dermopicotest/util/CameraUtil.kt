@@ -1,7 +1,5 @@
 package com.chowis.cma.dermopicotest.util
 
-import android.content.ContentResolver
-import android.content.Context
 import android.graphics.*
 import com.otaliastudios.cameraview.size.AspectRatio
 import com.otaliastudios.cameraview.size.SizeSelector
@@ -77,8 +75,8 @@ object CameraUtil {
             file.createNewFile()
             val os = FileOutputStream(file)
             val cropBitmap = if (menu == Constants.MENU_HAIR) getCircledBitmap(scaleBitmap) else scaleBitmap
-            // finally save to currentPicturePath as PNG causes image processing to take time
-            cropBitmap?.compress(Bitmap.CompressFormat.PNG, 100, os)
+
+            cropBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, os)
             os.close()
             cropBitmap?.recycle()
             Timber.d("end")
@@ -86,6 +84,22 @@ object CameraUtil {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+    fun doProcessingOfBitmap(fileName :String) :Bitmap{
+        val mBitmapOptions = BitmapFactory.Options()
+        mBitmapOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(fileName, mBitmapOptions);
+        val  srcWidth = mBitmapOptions.outWidth;
+//        srcHeight = mBitmapOptions.outHeight;
+
+        mBitmapOptions.inJustDecodeBounds = false;
+        mBitmapOptions.inScaled = true
+        mBitmapOptions.inSampleSize = 4
+        mBitmapOptions.inDensity = srcWidth;
+        mBitmapOptions.inTargetDensity =  320 * mBitmapOptions.inSampleSize;
+
+// will load & resize the image to be 1/inSampleSize dimensions
+        return BitmapFactory.decodeFile(fileName, mBitmapOptions);
     }
 
     private fun getCircledBitmap(bitmap: Bitmap): Bitmap? {

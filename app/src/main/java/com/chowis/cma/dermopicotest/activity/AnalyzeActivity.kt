@@ -37,16 +37,15 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-@RuntimePermissions
 class AnalyzeActivity : BleConnectionActivity() {
     private lateinit var calibratingDialog: Dialog
     private lateinit var noticeDialog: Dialog
     private var mCurrentPicturePath: String = ""
     private var mCurrentPicturePathResult: String = ""
     private val imagePath: String = Constants.IMAGE_TEMP_PATH
-    private val NOMEDIA_FILE = ".nomedia"
     private var menu: String = ""
     private lateinit var vm: AnalyzeViewModel
+    private val NOMEDIA_FILE = ".nomedia"
 
     override fun onGetContentViewResource(): Int {
         menu = intent.getStringExtra(Constants.MENU)!!
@@ -56,8 +55,7 @@ class AnalyzeActivity : BleConnectionActivity() {
     override fun onInit() {
         menu = intent.getStringExtra(Constants.MENU)!!
 
-        showCameraWithPermissionCheck()
-        createDirectories()
+        showCamera()
         iv_image_capture.setOnClickListener {
             takePicture()
         }
@@ -121,30 +119,11 @@ class AnalyzeActivity : BleConnectionActivity() {
 
     }
 
-    @SuppressLint("NeedOnRequestPermissionsResult")
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        onRequestPermissionsResult(requestCode, grantResults)
 
-    }
-
-    @NeedsPermission(
-        Manifest.permission.RECORD_AUDIO,
-        Manifest.permission.CAMERA,
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
-
-    )
     fun showCamera() {
-        if (SharedPref.newDevice || SharedPref.newDevice) {
+        if (SharedPref.newDevice || SharedPref.isFirstUse) {
             showCalibratingDeviceDialog()
         }
-        createDirectories()
         camera.setLifecycleOwner(this)
         camera.setFocusMode(2)
         camera.zoom = .3f
@@ -237,42 +216,14 @@ class AnalyzeActivity : BleConnectionActivity() {
 
     private fun getFullImagePath(timeStamp: String): kotlin.String? {
 
-        return imagePath + java.io.File.separator + timeStamp + "cma_camera.png"
+        return imagePath + java.io.File.separator + timeStamp + "cma_camera.jpg"
     }
 
     private fun getFullResultImagePath(timeStamp: String): kotlin.String? {
-        return imagePath + java.io.File.separator + timeStamp + "cma_camera_result.png"
+        return imagePath + java.io.File.separator + timeStamp + "cma_camera_result.jpg"
     }
 
-    private fun createDirectory(path: File) {
-        if (!path.exists()) {
-            path.mkdirs()
-            val DIR_FORMAT = 0x3001
-            val MediaUri = MediaStore.Files.getContentUri("external")
-            val values = ContentValues()
-            values.put(MediaStore.MediaColumns.DATA, path.absolutePath)
-            values.put("format", DIR_FORMAT)
-            values.put(
-                MediaStore.MediaColumns.DATE_MODIFIED,
-                System.currentTimeMillis() / 1000
-            )
-            applicationContext.contentResolver.insert(MediaUri, values)
-        }
-    }
 
-    private fun createDirectories() {
-        createDirectory(File(Constants.PICO_PATH))
-        createDirectory(File(Constants.IMAGE_PATH))
-        createDirectory(File(Constants.IMAGE_TEMP_PATH))
-        val file = File(Constants.PICO_PATH, NOMEDIA_FILE)
-        if (!file.exists()) {
-            try {
-                file.createNewFile()
-            } catch (e: IOException) {
-                Timber.e(e)
-            }
-        }
-    }
 
     private fun showAnalyses(visibility: Int) {
         btn_analyze.visibility = visibility
@@ -289,45 +240,7 @@ class AnalyzeActivity : BleConnectionActivity() {
         Timber.d("end")
     }
 
-    @OnPermissionDenied(
-        Manifest.permission.RECORD_AUDIO,
-        Manifest.permission.CAMERA,
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
 
-    )
-    fun onPermissionsDenied() {
-        finish()
-    }
-
-    @OnShowRationale(
-        Manifest.permission.RECORD_AUDIO,
-        Manifest.permission.CAMERA,
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
-
-    )
-    fun showRationale(request: PermissionRequest) {
-        // NOTE: Show a rationale to explain why the permission is needed, e.g. with a dialog.
-        // Call proceed() or cancel() on the provided PermissionRequest to continue or abort
-        showRationaleDialog(R.string.rationale, request)
-    }
-
-    @OnNeverAskAgain(Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS)
-    fun onContactsNeverAskAgain() {
-        Toast.makeText(this, R.string.rationale, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun showRationaleDialog(@StringRes messageResId: Int, request: PermissionRequest) {
-        AlertDialog.Builder(this)
-            .setPositiveButton(R.string.allow) { _, _ -> request.proceed() }
-            .setNegativeButton(R.string.deny) { _, _ -> request.cancel() }
-            .setCancelable(false)
-            .setMessage(messageResId)
-            .show()
-    }
 
     private fun processPicture() {
         hideProgressDialog()
