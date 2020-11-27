@@ -90,7 +90,7 @@ class SaveImageHistoryActivity : BleConnectionActivity(), ClickListener {
     override fun onClickListener(isChecked: Boolean, history: Calibrate) {
         Timber.d("onClickListener")
         if (isChecked) {
-            path = history.imagePath
+            path = history.resultPath
             isCheck = isChecked
             this.type = history.type
             this.sizeFactor = history.sizeFactor

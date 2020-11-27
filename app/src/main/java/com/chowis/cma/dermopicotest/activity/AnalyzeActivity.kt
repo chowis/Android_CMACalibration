@@ -163,37 +163,40 @@ class AnalyzeActivity : BleConnectionActivity() {
                 val resultPath = mCurrentPicturePathResult
 
                 val imgPro = JNIImageProCW()
-                var rawValue = imgPro.appTestJni(orgPath, resultPath)
+                var rawValue = imgPro.CMACalibJni(orgPath, resultPath)
                 sizeFactor = rawValue
-                val calibrate = Calibrate(
-                    0,
-                    "image",
-                    orgPath,
-                    resultPath,
-                    CommonUtil.getCurrenTime(),
-                    CommonUtil.getCurrentDate(),
-                    menu,
-                    "" + sizeFactor
-                )
-                Timber.d("rawValue=$rawValue")
-                val file = File(Constants.PICO_PATH, NOMEDIA_FILE)
+                if(sizeFactor > 0){
+                    val calibrate = Calibrate(
+                        0,
+                        "image",
+                        orgPath,
+                        resultPath,
+                        CommonUtil.getCurrenTime(),
+                        CommonUtil.getCurrentDate(),
+                        menu,
+                        "" + sizeFactor
+                    )
+                    Timber.d("rawValue=$rawValue")
+                    val file = File(Constants.PICO_PATH, NOMEDIA_FILE)
 
-                if (!file.exists()) {
-                    try {
-                        file.createNewFile()
-                    } catch (e: IOException) {
-                        Timber.e("IOException" + e.localizedMessage)
+                    if (!file.exists()) {
+                        try {
+                            file.createNewFile()
+                        } catch (e: IOException) {
+                            Timber.e("IOException" + e.localizedMessage)
+                        }
                     }
+
+                    sendBroadcast(
+                        Intent(
+                            Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                            Uri.fromFile(File(resultPath))
+                        )
+                    )
+                    // Save to Database
+                    vm.insetCalibration(calibrate)
                 }
 
-                sendBroadcast(
-                    Intent(
-                        Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
-                        Uri.fromFile(File(resultPath))
-                    )
-                )
-                // Save to Database
-                vm.insetCalibration(calibrate)
             }
             withContext(Dispatchers.Main) {
                 if (noticeDialog.isShowing)

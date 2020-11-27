@@ -1,6 +1,5 @@
 package com.chowis.jniimagepro;
 
-
 public class JNIImageProCW
 {
 
@@ -12,8 +11,6 @@ public class JNIImageProCW
     public native String getVersionJni();
     public native String getMakeDateJni();
 
-    public native double appTestJni(String sInputPath, String sOutputPath);
-    public native double cropCMAJni(String sInputPath, String sOutputPath);
-
+    public native double CMACalibJni(String sInputPath, String sOutputPath);
 
 }
