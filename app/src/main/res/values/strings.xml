@@ -32,8 +32,24 @@
     <string name="how_to_calibrate">HOW TO CALIBRATE</string>
     <string name="calibrating_device">Calibrating Device</string>
     <string name="calibrating_device_message">Attach the device before proceeding.\n\nTo standardize ranges of image sizes without using a fixed size.\n\nTo check if the CMA device is attached correctly.\n\nTo know the real measurement of the area each phone can take.</string>
+    <string name="done">DONE</string>
     <string name="please_wait">Please wait...</string>
     <string name="please_wait_picture">Please wait processing picture...</string>
-    <string name="notice_error">Device is not attached properly.\nCheck the device attachment
-and capture again,</string>
+    <string name="notice_error">Device is not attached properly.\nCheck the device attachment and capture again,</string>
+    <string name="focus">FOCUS</string>
+    <string name="shutter_speed_tag">SHUTTER_SPEED</string>
+    <string name="exposure">EXPOSURE</string>
+    <string name="exposure_slider">EXPOSURE_SLIDER</string>
+    <string name="ok">OKAY</string>
+    <string name="red">RED</string>
+    <string name="green">GREEN</string>
+    <string name="blue">BLUE</string>
+    <string name="iso">ISO</string>
+    <string name="white_balance">WHITE_BALANCE</string>
+    <string name="white_balance_slider">WHITE_BALANCE_SLIDER</string>
+    <string name="white_balance_red">WHITE_BALANCE_RED</string>
+    <string name="white_balance_green">WHITE_BALANCE_GREEN</string>
+    <string name="white_balance_blue">WHITE_BALANCE_BLUE</string>
+    <string name="setting">Setting</string>
+
 </resources>

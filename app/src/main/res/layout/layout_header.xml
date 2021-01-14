@@ -40,6 +40,15 @@
         app:layout_constraintEnd_toStartOf="@+id/iv_ble"
         app:srcCompat="@drawable/notification" />
 
+    <ImageView
+        android:id="@+id/iv_manualInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_notification"
+        app:layout_constraintEnd_toStartOf="@+id/iv_notification"
+        app:srcCompat="@drawable/setting" />
+
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"

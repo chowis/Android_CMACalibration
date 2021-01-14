@@ -1,22 +1,16 @@
 package com.chowis.cma.dermopicotest.activity
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
-import android.provider.MediaStore
 import android.view.View
-import android.widget.Toast
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.res.ResourcesCompat.getColor
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.chowis.cma.dermopicotest.R
 import com.chowis.cma.dermopicotest.ble.BleConnectionActivity
 import com.chowis.cma.dermopicotest.custom_dialog.CalibratingDialog
+import com.chowis.cma.dermopicotest.custom_dialog.ManualInput
 import com.chowis.cma.dermopicotest.custom_dialog.NoticeDialog
 import com.chowis.cma.dermopicotest.db.DatabaseBuilder
 import com.chowis.cma.dermopicotest.db.DatabaseHelperImpl
@@ -26,6 +20,7 @@ import com.chowis.cma.dermopicotest.view_model.AnalyzeViewModel
 import com.chowis.jniimagepro.JNIImageProCW
 import com.otaliastudios.cameraview.CameraListener
 import com.otaliastudios.cameraview.PictureResult
+import com.otaliastudios.cameraview.controls.WhiteBalance
 import com.otaliastudios.cameraview.size.AspectRatio
 import kotlinx.android.synthetic.main.activity_analyze.*
 import kotlinx.android.synthetic.main.layout_header.*
@@ -40,6 +35,7 @@ import java.util.*
 class AnalyzeActivity : BleConnectionActivity() {
     private lateinit var calibratingDialog: Dialog
     private lateinit var noticeDialog: Dialog
+    private lateinit var manualInput: Dialog
     private var mCurrentPicturePath: String = ""
     private var mCurrentPicturePathResult: String = ""
     private val imagePath: String = Constants.IMAGE_TEMP_PATH
@@ -68,6 +64,19 @@ class AnalyzeActivity : BleConnectionActivity() {
         }
         iv_back.setOnClickListener { onBackPressed() }
         iv_ble.setOnClickListener { isBluetoothConnected() }
+        iv_manualInput.setOnClickListener {
+            manualInput = ManualInput(this,object : ManualInput.Listener{
+                override fun cameraChanges(whiteBalance: WhiteBalance,iso: Int) {
+                    setWhiteBalance(whiteBalance)
+                    setISO()
+
+                }
+                // passedValues()
+
+
+            })
+            manualInput.show()
+        }
         focus_view1.canvassColor = getColor(resources, R.color.colorWhite, null)
 
         vm = ViewModelProviders.of(
@@ -77,6 +86,14 @@ class AnalyzeActivity : BleConnectionActivity() {
             )
         ).get(AnalyzeViewModel::class.java)
 
+    }
+
+    private fun setWhiteBalance(whiteBalance: WhiteBalance) {
+        camera.setWhiteBalance(whiteBalance)
+    }
+
+    private fun setISO(iso: Int) {
+        camera.set(SENSOR_SERVICE)
     }
 
     private fun showCalibratingDeviceDialog() {
