@@ -1,24 +1,23 @@
 package com.chowis.cma.dermopicotest.custom_dialog
 
 import android.content.Context
+import android.content.Context.CAMERA_SERVICE
 import android.graphics.Color
+import android.hardware.camera2.*
 import android.os.Bundle
-import android.util.Log
+import android.util.Range
 import android.view.View
 import android.widget.Button
-import android.widget.EditText
 import android.widget.SeekBar
 import com.chowis.cma.dermopicotest.R
+import com.google.android.material.slider.Slider
+import com.otaliastudios.cameraview.CameraOptions
 import com.otaliastudios.cameraview.controls.WhiteBalance
-import java.util.*
+import kotlinx.android.synthetic.main.layout_dialog_manual_input.*
 
 class ManualInput(
     context: Context, private val listener: Listener
 ): BaseDialog(context) {
-    private var focusSlider: SeekBar? = null
-    private var shutterSlider:SeekBar? = null
-    private var exposureSlider:SeekBar? = null
-
     private lateinit var btn100: Button
     private lateinit var btn200: Button
     private lateinit var btn400: Button
@@ -39,18 +38,16 @@ class ManualInput(
 
     private var selectedISO: View? = null
 
+    private lateinit var cameraOptions: CameraOptions
+
     override val layoutId: Int = R.layout.layout_dialog_manual_input
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         init()
+
     }
 
     private fun init() {
-
-        focusSlider = findViewById(R.id.focusSlider)
-        shutterSlider = findViewById(R.id.shutterSlider)
-        exposureSlider = findViewById(R.id.exposureSlider)
-
         btn100 = findViewById(R.id.iso100)
         btn200 = findViewById(R.id.iso200)
         btn400 = findViewById(R.id.iso400)
@@ -65,15 +62,44 @@ class ManualInput(
         btnWBCloudy = findViewById(R.id.btnWBCloudy)
         
         btnDone = findViewById(R.id.btnDone)
-        
-        btnDone.setOnClickListener {
-            listener.cameraChanges(wb_value,iso_value)
-        }
-        
-        isoSelector()
 
+        btnDone.setOnClickListener {
+            listener.cameraChanges(
+                wb_value,
+                iso_value,
+                focusSlider.progress,
+                shutterSlider.progress,
+                exposureValue()
+            )
+            dismiss()
+        }
+
+        isoSelector()
     }
 
+
+    private fun exposureValue(): Float {
+        val manager = context.getSystemService(CAMERA_SERVICE) as CameraManager
+        val cameraId = manager.cameraIdList[0]
+        val characteristics = manager.getCameraCharacteristics(cameraId)
+        val range1: Range<Int>? =
+            characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE)
+        val minExposure = range1?.lower
+        val maxExposure = range1?.upper
+        val sliderValue = ((exposureSlider.progress / 25) - 2).toFloat()
+        var exposureValue: Float = 0f
+        if (minExposure != null && maxExposure != null) {
+            if (minExposure != null) {
+                exposureValue =
+                    if (sliderValue >= 0) {
+                            (minExposure * sliderValue)
+                    } else {
+                            (maxExposure * -1 * sliderValue)
+                    }
+                }
+            }
+        return exposureValue
+    }
     private fun isoSelector() {
         btn100.setOnClickListener { setISO(it) }
         btn200.setOnClickListener { setISO(it) }
@@ -114,7 +140,13 @@ class ManualInput(
     }
 
     interface Listener {
-        fun cameraChanges(whiteBalance: WhiteBalance, iso: Int)
+        fun cameraChanges(
+            whiteBalance: WhiteBalance,
+            iso: Int,
+            focus: Int,
+            shutterSpeed: Int,
+            exposure: Float
+        )
     }
 }
 

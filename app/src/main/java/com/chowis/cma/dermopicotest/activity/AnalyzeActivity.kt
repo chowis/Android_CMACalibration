@@ -3,6 +3,7 @@ package com.chowis.cma.dermopicotest.activity
 import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.view.View
 import androidx.core.content.res.ResourcesCompat.getColor
 import androidx.lifecycle.ViewModelProviders
@@ -23,6 +24,7 @@ import com.otaliastudios.cameraview.PictureResult
 import com.otaliastudios.cameraview.controls.WhiteBalance
 import com.otaliastudios.cameraview.size.AspectRatio
 import kotlinx.android.synthetic.main.activity_analyze.*
+import kotlinx.android.synthetic.main.layout_dialog_manual_input.*
 import kotlinx.android.synthetic.main.layout_header.*
 import kotlinx.coroutines.*
 import permissions.dispatcher.*
@@ -66,14 +68,13 @@ class AnalyzeActivity : BleConnectionActivity() {
         iv_ble.setOnClickListener { isBluetoothConnected() }
         iv_manualInput.setOnClickListener {
             manualInput = ManualInput(this,object : ManualInput.Listener{
-                override fun cameraChanges(whiteBalance: WhiteBalance,iso: Int) {
+                override fun cameraChanges(whiteBalance: WhiteBalance,iso: Int, focus: Int, shutterSpeed: Int, exposure: Float) {
                     setWhiteBalance(whiteBalance)
-                    setISO()
-
+                    setISO(iso)
+                    setFocus(focus)
+                    setShutterSpeed(shutterSpeed)
+                    setExposure(exposure)
                 }
-                // passedValues()
-
-
             })
             manualInput.show()
         }
@@ -85,15 +86,27 @@ class AnalyzeActivity : BleConnectionActivity() {
                 DatabaseHelperImpl(DatabaseBuilder.getInstance(applicationContext))
             )
         ).get(AnalyzeViewModel::class.java)
-
     }
 
     private fun setWhiteBalance(whiteBalance: WhiteBalance) {
         camera.setWhiteBalance(whiteBalance)
+
     }
 
-    private fun setISO(iso: Int) {
-        camera.set(SENSOR_SERVICE)
+    private fun setISO(iso: Int){
+
+    }
+
+    private fun setFocus(focus: Int) {
+
+    }
+
+    private fun setShutterSpeed(shutterSpeed: Int) {
+
+    }
+
+    private fun setExposure(exposure: Float) {
+        camera.setExposureCorrection(exposure)
     }
 
     private fun showCalibratingDeviceDialog() {
@@ -105,6 +118,7 @@ class AnalyzeActivity : BleConnectionActivity() {
         })
         calibratingDialog.show()
     }
+
     private fun retakePicture(){
         iv_image_capture.visibility = View.VISIBLE
         img_original.visibility = View.INVISIBLE
@@ -112,8 +126,8 @@ class AnalyzeActivity : BleConnectionActivity() {
         mCurrentPicturePathResult = ""
         showAnalyses(8)
     }
-    private fun showNoticeDialog(message: String, buttonText: String, resId: Int, visibility: Int) {
 
+    private fun showNoticeDialog(message: String, buttonText: String, resId: Int, visibility: Int) {
         noticeDialog = NoticeDialog(
             this,
             resId,
@@ -128,12 +142,10 @@ class AnalyzeActivity : BleConnectionActivity() {
                         onBackPressed()
                     }
                 }
-
                 override fun onCancel() {
                 }
             })
         noticeDialog.show()
-
     }
 
 
@@ -286,7 +298,6 @@ class AnalyzeActivity : BleConnectionActivity() {
                 iv_image_capture.isEnabled = true
                 iv_image_capture.visibility = View.GONE
                 showAnalyses(1)
-
             }
         }
     }

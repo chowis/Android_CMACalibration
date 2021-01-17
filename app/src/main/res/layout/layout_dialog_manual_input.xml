@@ -90,12 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:value="50"
-            android:valueFrom="0"
-            android:valueTo="100"
-            style="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-            android:theme="@style/ThemeOverlay.PrimaryPalette.Red"/>
+            android:progressTint="@color/colorBlack" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -106,12 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:value="50"
-            android:valueFrom="0"
-            android:valueTo="100"
-            style="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-            android:theme="@style/ThemeOverlay.PrimaryPalette.Red"/>
+            android:progressTint="@color/colorBlack" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -122,12 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:value="50"
-            android:valueFrom="0"
-            android:valueTo="100"
-            style="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-            android:theme="@style/ThemeOverlay.PrimaryPalette.Red"/>
+            android:progressTint="@color/colorBlack" />
     </LinearLayout>
     <TableLayout
         android:layout_width="match_parent"
