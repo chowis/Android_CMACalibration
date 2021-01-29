@@ -42,36 +42,41 @@
            <TableRow
                android:layout_width="match_parent"
                android:layout_height="wrap_content">
-               <Button
+               <ImageButton
                    android:id="@+id/btnWBAuto"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
-                   android:background="@mipmap/ic_whitebalance_auto"
+                   android:src="@mipmap/ic_whitebalance_auto"
+                   android:background="@drawable/button_selected"
                    android:layout_weight="1"/>
-               <Button
+               <ImageButton
                    android:id="@+id/btnWBIncandescent"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
-                   android:background="@mipmap/ic_whitebalance_incandescent"
-                   android:layout_weight="1"/>
-               <Button
+                   android:src="@mipmap/ic_whitebalance_incandescent"
+                   android:layout_weight="1"
+                   android:background="@drawable/button_selected"/>
+               <ImageButton
                    android:id="@+id/btnWBFluorescent"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
-                   android:background="@mipmap/ic_whitebalance_fluorescent"
-                   android:layout_weight="1"/>
-               <Button
+                   android:src="@mipmap/ic_whitebalance_fluorescent"
+                   android:layout_weight="1"
+                   android:background="@drawable/button_selected"/>
+               <ImageButton
                    android:id="@+id/btnWBDaylight"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
-                   android:background="@mipmap/ic_whitebalance_daylight"
-                   android:layout_weight="1"/>
-               <Button
+                   android:src="@mipmap/ic_whitebalance_daylight"
+                   android:layout_weight="1"
+                   android:background="@drawable/button_selected"/>
+               <ImageButton
                    android:id="@+id/btnWBCloudy"
                    android:layout_height="match_parent"
                    android:layout_width="match_parent"
-                   android:background="@mipmap/ic_whitebalance_cloudy"
-                   android:layout_weight="1"/>
+                   android:src="@mipmap/ic_whitebalance_cloudy"
+                   android:layout_weight="1"
+                   android:background="@drawable/button_selected"/>
            </TableRow>
        </TableLayout>
     </LinearLayout>

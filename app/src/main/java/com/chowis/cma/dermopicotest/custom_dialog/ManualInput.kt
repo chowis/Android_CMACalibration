@@ -8,9 +8,8 @@ import android.os.Bundle
 import android.util.Range
 import android.view.View
 import android.widget.Button
-import android.widget.SeekBar
+import android.widget.ImageButton
 import com.chowis.cma.dermopicotest.R
-import com.google.android.material.slider.Slider
 import com.otaliastudios.cameraview.CameraOptions
 import com.otaliastudios.cameraview.controls.WhiteBalance
 import kotlinx.android.synthetic.main.layout_dialog_manual_input.*
@@ -25,11 +24,11 @@ class ManualInput(
     private lateinit var btn1600: Button
     private lateinit var btn3200: Button
     
-    private lateinit var btnWBAuto: Button
-    private lateinit var btnWBIncandescent: Button
-    private lateinit var btnWBFluorescent: Button
-    private lateinit var btnWBDaylight: Button
-    private lateinit var btnWBCloudy:Button
+    private lateinit var btnWBAuto: ImageButton
+    private lateinit var btnWBIncandescent: ImageButton
+    private lateinit var btnWBFluorescent: ImageButton
+    private lateinit var btnWBDaylight: ImageButton
+    private lateinit var btnWBCloudy:ImageButton
     
     private lateinit var btnDone: Button
 
@@ -37,6 +36,7 @@ class ManualInput(
     private var wb_value: WhiteBalance = WhiteBalance.AUTO
 
     private var selectedISO: View? = null
+    private var selectedWB: View ? = null
 
     private lateinit var cameraOptions: CameraOptions
 
@@ -74,7 +74,7 @@ class ManualInput(
             dismiss()
         }
 
-        isoSelector()
+        selector()
     }
 
 
@@ -100,7 +100,8 @@ class ManualInput(
             }
         return exposureValue
     }
-    private fun isoSelector() {
+
+    private fun selector() {
         btn100.setOnClickListener { setISO(it) }
         btn200.setOnClickListener { setISO(it) }
         btn400.setOnClickListener { setISO(it) }
@@ -123,6 +124,7 @@ class ManualInput(
             R.id.btnWBDaylight -> wb_value = WhiteBalance.DAYLIGHT
             R.id.btnWBCloudy -> wb_value = WhiteBalance.CLOUDY
         }
+        selectedWB = v
     }
 
     private fun setISO(v: View) {
