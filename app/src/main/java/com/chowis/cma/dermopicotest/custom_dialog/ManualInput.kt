@@ -8,7 +8,7 @@ import android.os.Bundle
 import android.util.Range
 import android.view.View
 import android.widget.Button
-import android.widget.ImageButton
+import android.widget.ImageView
 import com.chowis.cma.dermopicotest.R
 import com.otaliastudios.cameraview.CameraOptions
 import com.otaliastudios.cameraview.controls.WhiteBalance
@@ -24,11 +24,11 @@ class ManualInput(
     private lateinit var btn1600: Button
     private lateinit var btn3200: Button
     
-    private lateinit var btnWBAuto: ImageButton
-    private lateinit var btnWBIncandescent: ImageButton
-    private lateinit var btnWBFluorescent: ImageButton
-    private lateinit var btnWBDaylight: ImageButton
-    private lateinit var btnWBCloudy:ImageButton
+    private lateinit var btnWBAuto: ImageView
+    private lateinit var btnWBIncandescent: ImageView
+    private lateinit var btnWBFluorescent: ImageView
+    private lateinit var btnWBDaylight: ImageView
+    private lateinit var btnWBCloudy:ImageView
     
     private lateinit var btnDone: Button
 
@@ -117,6 +117,7 @@ class ManualInput(
     }
 
     private fun setWB(v: View) {
+        selectedWB?.setBackgroundResource(0)
         when (v.id) {
             R.id.btnWBAuto -> wb_value = WhiteBalance.AUTO
             R.id.btnWBIncandescent -> wb_value = WhiteBalance.INCANDESCENT
@@ -124,6 +125,7 @@ class ManualInput(
             R.id.btnWBDaylight -> wb_value = WhiteBalance.DAYLIGHT
             R.id.btnWBCloudy -> wb_value = WhiteBalance.CLOUDY
         }
+        v.setBackgroundResource(R.drawable.border)
         selectedWB = v
     }
 
